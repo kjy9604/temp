@@ -150,7 +150,7 @@ def shopRank(query, prevQuery, mid):
 
 @app.route('/siteRank/<query>/<word>')
 def siteRank(query, word):
-	num = random.randrange(0, 7)
+	num = random.randrange(1, 7)
 	print(f'랜덤번호 : {num}')
 	result = ''
 	if num == 1 :
@@ -204,6 +204,7 @@ def type1(query, word):
 	# 추가옵션 - 임시로 주석
 	opts.add_argument('--headless')
 	opts.add_argument('--no-sandbox')
+	opts.add_argument('--proxy-server='"socks5://"+PROXY)
 
 	driver =webdriver.Chrome("../chromedriver",options=opts)
 	driver.maximize_window()
@@ -251,9 +252,7 @@ def type1(query, word):
 		driver.get(url2)
 		driver.execute_script("window.scrollTo(0,1080)")
 		driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-		elements = driver.find_elements_by_partial_link_text(word)
-		soup2 = bs(page2.text, "html.parser")
-		elements2 = soup2.select('li.bx')
+		elements2 = driver.find_elements_by_partial_link_text(word)
 		for index, element in enumerate(elements2, 16):
 			print("{} 번째 게시글의 제목: {}".format(index, element.text))
 			if (word in element.text) :
@@ -286,9 +285,11 @@ def type1(query, word):
 		time.sleep(2)
 		driver.delete_all_cookies()
 		driver.quit()
+		time.sleep(120)
 		return "done"
 	else :
 		driver.quit()
+		time.sleep(120)
 		return str(rank)
 
 
@@ -335,6 +336,7 @@ def type2(query, word):
 	# 추가옵션 - 임시로 주석
 	opts.add_argument('--headless')
 	opts.add_argument('--no-sandbox')
+	opts.add_argument('--proxy-server='"socks5://"+PROXY)
 
 	driver =webdriver.Chrome("../chromedriver",options=opts)
 	driver.maximize_window()
@@ -387,9 +389,7 @@ def type2(query, word):
 		driver.get(url2)
 		driver.execute_script("window.scrollTo(0,1080)")
 		driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-		elements = driver.find_elements_by_partial_link_text(word)
-		soup2 = bs(page2.text, "html.parser")
-		elements2 = soup2.select('li.bx')
+		elements2 = driver.find_elements_by_partial_link_text(word)
 		for index, element in enumerate(elements2, 16):
 			print("{} 번째 게시글의 제목: {}".format(index, element.text))
 			if (word in element.text) :
@@ -422,9 +422,11 @@ def type2(query, word):
 		time.sleep(2)
 		driver.delete_all_cookies()
 		driver.quit()
+		time.sleep(120)
 		return "done"
 	else :
 		driver.quit()
+		time.sleep(120)
 		return str(rank)
 
 
@@ -471,6 +473,7 @@ def type3(query, word):
 	# 추가옵션 - 임시로 주석
 	opts.add_argument('--headless')
 	opts.add_argument('--no-sandbox')
+	opts.add_argument('--proxy-server='"socks5://"+PROXY)
 
 	driver =webdriver.Chrome("../chromedriver",options=opts)
 	driver.maximize_window()
@@ -538,9 +541,7 @@ def type3(query, word):
 		driver.get(url2)
 		driver.execute_script("window.scrollTo(0,1080)")
 		driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-		elements = driver.find_elements_by_partial_link_text(word)
-		soup2 = bs(page2.text, "html.parser")
-		elements2 = soup2.select('li.bx')
+		elements2 = driver.find_elements_by_partial_link_text(word)
 		for index, element in enumerate(elements2, 16):
 			print("{} 번째 게시글의 제목: {}".format(index, element.text))
 			if (word in element.text) :
@@ -573,9 +574,11 @@ def type3(query, word):
 		time.sleep(2)
 		driver.delete_all_cookies()
 		driver.quit()
+		time.sleep(120)
 		return "done"
 	else :
 		driver.quit()
+		time.sleep(120)
 		return str(rank)
 
 @app.route('/type4/<query>/<word>')
@@ -621,6 +624,7 @@ def type4(query, word):
 	# 추가옵션 - 임시로 주석
 	opts.add_argument('--headless')
 	opts.add_argument('--no-sandbox')
+	opts.add_argument('--proxy-server='"socks5://"+PROXY)
 
 	driver =webdriver.Chrome("../chromedriver",options=opts)
 	driver.maximize_window()
@@ -679,9 +683,7 @@ def type4(query, word):
 		driver.get(url2)
 		driver.execute_script("window.scrollTo(0,1080)")
 		driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-		elements = driver.find_elements_by_partial_link_text(word)
-		soup2 = bs(page2.text, "html.parser")
-		elements2 = soup2.select('li.bx')
+		elements2 = driver.find_elements_by_partial_link_text(word)
 		for index, element in enumerate(elements2, 16):
 			print("{} 번째 게시글의 제목: {}".format(index, element.text))
 			if (word in element.text) :
@@ -714,9 +716,11 @@ def type4(query, word):
 		time.sleep(2)
 		driver.delete_all_cookies()
 		driver.quit()
+		time.sleep(120)
 		return "done"
 	else :
 		driver.quit()
+		time.sleep(120)
 		return str(rank)
 
 @app.route('/type5/<query>/<word>')
@@ -755,6 +759,7 @@ def type5(query, word):
 	# 추가옵션 - 임시로 주석
 	opts.add_argument('--headless')
 	opts.add_argument('--no-sandbox')
+	opts.add_argument('--proxy-server='"socks5://"+PROXY)
 
 	driver =webdriver.Chrome("../chromedriver",options=opts)
 	driver.maximize_window()
@@ -802,9 +807,7 @@ def type5(query, word):
 		driver.get(url2)
 		driver.execute_script("window.scrollTo(0,1080)")
 		driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-		elements = driver.find_elements_by_partial_link_text(word)
-		soup2 = bs(page2.text, "html.parser")
-		elements2 = soup2.select('li.bx')
+		elements2 = driver.find_elements_by_partial_link_text(word)
 		for index, element in enumerate(elements2, 16):
 			print("{} 번째 게시글의 제목: {}".format(index, element.text))
 			if (word in element.text) :
@@ -837,9 +840,11 @@ def type5(query, word):
 		time.sleep(2)
 		driver.delete_all_cookies()
 		driver.quit()
+		time.sleep(120)
 		return "done"
 	else :
 		driver.quit()
+		time.sleep(120)
 		return str(rank)
 
 @app.route('/type6/<query>/<word>')
@@ -882,6 +887,7 @@ def type6(query, word):
 	# 추가옵션 - 임시로 주석
 	opts.add_argument('--headless')
 	opts.add_argument('--no-sandbox')
+	opts.add_argument('--proxy-server='"socks5://"+PROXY)
 
 	driver =webdriver.Chrome("../chromedriver",options=opts)
 	driver.maximize_window()
@@ -929,9 +935,7 @@ def type6(query, word):
 		driver.get(url2)
 		driver.execute_script("window.scrollTo(0,1080)")
 		driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-		elements = driver.find_elements_by_partial_link_text(word)
-		soup2 = bs(page2.text, "html.parser")
-		elements2 = soup2.select('li.bx')
+		elements2 = driver.find_elements_by_partial_link_text(word)
 		for index, element in enumerate(elements2, 16):
 			print("{} 번째 게시글의 제목: {}".format(index, element.text))
 			if (word in element.text) :
@@ -964,9 +968,11 @@ def type6(query, word):
 		time.sleep(2)
 		driver.delete_all_cookies()
 		driver.quit()
+		time.sleep(120)
 		return "done"
 	else :
 		driver.quit()
+		time.sleep(120)
 		return str(rank)
 
 
@@ -998,6 +1004,7 @@ def ipCheck():
 	opts.add_argument("user-agent="+user_agent)
 	opts.add_argument('--headless')
 	opts.add_argument('--no-sandbox')
+	opts.add_argument('--proxy-server='"socks5://"+PROXY)
 
 	print(webdriver.DesiredCapabilities.CHROME)
 
