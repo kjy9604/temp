@@ -114,9 +114,94 @@ class SearchRank(Crawler):
                 
             return str(rank)
 
+class ShopRank(Crawler):
+    def crawl(self, query, word, mid):
+        url = f"https://search.shopping.naver.com/search/all?query={query}&frm=NVSHATC&prevQuery={word}"
+        # url = f"https://search.shopping.naver.com/search/all?frm=NVSHATC&origQuery={query}&pagingIndex=1&pagingSize=40&productSet=total&query={query}&sort=rel&timestamp=&viewType=list"
+
+        flag = False
+        rank = "X"
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument("--single-process")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--proxy-server=socks5://127.0.0.1:9150")
+        path='../chromedriver'
+        browser = webdriver.Chrome(path, chrome_options=chrome_options)
+        browser.maximize_window()
+
+        # 페이지 이동
+        # url = "https://play.google.com/store/movies/top"
+        browser.get(url)
+
+
+        # 지정한 위치로 스크롤 내리기
+        # 1080 해상도인 경우, 1080 위치로 한페이지를 스크롤한다
+        browser.execute_script("window.scrollTo(0,1080)")
+
+        # 화면 가장 하단으로 스크롤 내리기
+        browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+
+
+        interval = 1  # 1초에 한 번씩 스크롤 내림
+
+        # 현재 문서 높이를 가져와서 저장
+        prev_height = browser.execute_script("return document.body.scrollHeight")
+
+
+        while True:
+            # 가장 아래로 스크롤 이동
+            browser.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+
+            # 페이지 로딩 대기
+            time.sleep(interval)
+
+            # 현재 문서 높이를 가져와서 저장
+            curr_height = browser.execute_script("return document.body.scrollHeight")
+            if prev_height == curr_height:
+                break
+
+            prev_height = curr_height
+
+        print("스크롤 완료")
+
+        # ----------------------------------------------------------------
+        soup = bs(browser.page_source, "html.parser")
+        elements = soup.select('ul.list_basis > div > div > li > div > div.basicList_info_area__17Xyo > div.basicList_title__3P9Q7 > a')
+        # elements = soup.select('ul.list_basis')
+        print(len(elements))
+
+        for index, element in enumerate(elements, 1):
+            print("{} 번째 게시글의 제목: {}".format(index, element.text))
+            if (str(mid) in str(element)) :
+                print("True!!")
+                flag = True
+                rank = index
+                # return 하면 될듯?
+                return str(rank)
+
+        if (flag == True) :
+            return str(rank)
+        else :
+            # url2 = f"https://search.naver.com/search.naver?display=15&f=&filetype=0&page=3&query={query}&research_url=&sm=tab_pge&start=16&where=web"
+            # page2 = requests.get(url2)
+            # soup2 = bs(page2.text, "html.parser")
+            # elements2 = soup2.select('li.bx div > div.total_tit_group')
+            # for index, element in enumerate(elements2, 16):
+            # 	print("{} 번째 게시글의 제목: {}".format(index, element.text))
+                # if (word in element.text) :
+                # 	print("True!!")
+                # 	flag = True
+                # 	rank = index
+                # 	# return 하면 될듯?
+                # 	return str(rank)
+                
+            return str(rank)
+
 
 class Type1(Crawler):
-    def crawl(self, query, word):
+    def crawl(self, query, word, mid):
         print('Type1')
         # 체류시간
         randTime = random.randrange(60, 91)
@@ -213,7 +298,7 @@ class Type1(Crawler):
             return str(rank)
 
 class Type2(Crawler):
-    def crawl(self, query, word):
+    def crawl(self, query, word, mid):
         print('Type2')
         # 체류시간
         randTime = random.randrange(60, 91)
@@ -322,7 +407,7 @@ class Type2(Crawler):
             return str(rank)
 
 class Type3(Crawler):
-    def crawl(self, query, word):
+    def crawl(self, query, word, mid):
         print('Type3')
         # 체류시간
         randTime = random.randrange(60, 91)
@@ -446,7 +531,7 @@ class Type3(Crawler):
             return str(rank)
 
 class Type4(Crawler):
-    def crawl(self, query, word):
+    def crawl(self, query, word, mid):
         print('Type4')
         # 체류시간
         randTime = random.randrange(60, 91)
@@ -561,7 +646,7 @@ class Type4(Crawler):
             return str(rank)
 
 class Type5(Crawler):
-    def crawl(self, query, word):
+    def crawl(self, query, word, mid):
         print('Type5')
         # 체류시간
         randTime = random.randrange(60, 91)
@@ -658,7 +743,7 @@ class Type5(Crawler):
             return str(rank)
 
 class Type6(Crawler):
-    def crawl(self, query, word):
+    def crawl(self, query, word, mid):
         print('Type6')
         # 체류시간
         randTime = random.randrange(60, 91)
@@ -767,7 +852,7 @@ class CrawlFactory(metaclass=ABCMeta):
         pass
 
 # concreteFactory
-class SiteRankFactory(CrawlFactory):
+class SiteFactory(CrawlFactory):
     def createCrawler(self):
         num = random.randrange(1, 7)
         if num == 1:
@@ -783,6 +868,10 @@ class SiteRankFactory(CrawlFactory):
         else:
             return Type6()
 
+class SearchFactory(CrawlFactory):
+    def createCrawler(self):
+        return SearchRank()
+
 
 # client
 class Client():
@@ -792,15 +881,16 @@ class Client():
         self.word = ""
         self.loop = ""
         self.crawler = ""
+        self.mid = ""
 
     def create(self, param, query, word, loop):
         """param은 사용자 요구에 따라 변경"""
 
         # 사용자 요구에 따라, product를 생산할 factory 생성
         if param == 'site':
-            factory = SiteRankFactory()
-        # elif param == 'apple':
-        #     factory = AppleMouseFactory()
+            factory = SiteFactory()
+        elif param == 'search':
+            factory = SearchRank()
         else:
             return
 
@@ -823,6 +913,9 @@ class Client():
             num = 1
             while(self.loop > num):
                 self.crawler.crawl(self.query, self.word)
+
+    def setLoop(self, loop):
+        self.loop = loop
 
 
 if __name__ == '__main__':
