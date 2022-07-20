@@ -1,6 +1,6 @@
 import threading
 import time
-import newCrawler
+from src import newCrawler
 from flask import Flask, request
 from flask_restx import Resource, Api
 from abc import ABCMeta, abstractmethod
