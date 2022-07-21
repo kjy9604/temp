@@ -55,7 +55,6 @@ def crawling():
 		
 		cursor.execute(sql)
 		result = cursor.fetchall()
-		print('1')
 		print(result)
 		close(driver, cursor)
 		if (len(result) == 0):
@@ -69,12 +68,9 @@ def crawling():
 		for i in range(q.qsize()):
 			inner = q.get() # DB row
 			print(inner['crawl_type'])
-			print('1')
 			client = newCrawler.Client()
-			print('2')
-			client.create(inner['crawl_type'], inner['keyword'], inner['url_mid'], inner['loop_count'])
+			client.create(inner['crawl_type'], inner['keyword'], inner['search_word'], inner['url_mid'], inner['loop_count'])
 			if (inner['crawl_type'] == 'shop'):
-				print('123123')
 				client.mid(inner['url_mid'])
 			try:
 				client.crawl()

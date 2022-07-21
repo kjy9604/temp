@@ -118,7 +118,7 @@ class Crawler(metaclass=ABCMeta):
 
 # concreteProduct
 class SearchRank(Crawler):
-    def crawl(query, word):
+    def crawl(self, query, word, url_mid):
         url = f"https://search.naver.com/search.naver?display=15&f=&filetype=0&page=2&query={query}&research_url=&sm=tab_pge&start=1&where=web"
         proxies = {
             'http': 'socks5://127.0.0.1:9050',
@@ -137,7 +137,7 @@ class SearchRank(Crawler):
 
         for index, element in enumerate(elements, 1):
             print("{} 번째 게시글의 제목: {}".format(index, element.text))
-            if (word in element.text) :
+            if (url_mid in element.text) :
                 print("True!!")
                 flag = True
                 rank = index
@@ -152,7 +152,7 @@ class SearchRank(Crawler):
             elements2 = soup2.select('li.bx div > div.total_tit_group')
             for index, element in enumerate(elements2, 16):
                 print("{} 번째 게시글의 제목: {}".format(index, element.text))
-                if (word in element.text) :
+                if (url_mid in element.text) :
                     print("True!!")
                     flag = True
                     rank = index
@@ -161,7 +161,7 @@ class SearchRank(Crawler):
             return str(rank)
 
 class ShopRank(Crawler):
-    def crawl(self, query, word):
+    def crawl(self, query, word, url_mid):
         global Driver
         url = f"https://search.shopping.naver.com/search/all?query={query}&frm=NVSHATC&prevQuery={word}"
 
@@ -217,7 +217,7 @@ class ShopRank(Crawler):
 
         for index, element in enumerate(elements, 1):
             print("{} 번째 게시글의 제목: {}".format(index, element.text))
-            if (str(self.mid) in str(element)) :
+            if (str(url_mid) in str(element)) :
                 print("True!!")
                 flag = True
                 rank = index
@@ -233,7 +233,7 @@ class ShopRank(Crawler):
             # elements2 = soup2.select('li.bx div > div.total_tit_group')
             # for index, element in enumerate(elements2, 16):
             # 	print("{} 번째 게시글의 제목: {}".format(index, element.text))
-                # if (word in element.text) :
+                # if (url_mid in element.text) :
                 # 	print("True!!")
                 # 	flag = True
                 # 	rank = index
@@ -244,7 +244,7 @@ class ShopRank(Crawler):
 
 
 class Type1(Crawler):
-    def crawl(self, query, word):
+    def crawl(self, query, word, url_mid):
         global Driver 
         print('Type1')
         # 체류시간
@@ -283,7 +283,7 @@ class Type1(Crawler):
 
         for index, element in enumerate(elements, 1):
             print("{} 번째 게시글의 제목: {}".format(index, element.text))
-            if (word in element.text) :
+            if (url_mid in element.text) :
                 print("True!!")
                 print(element.text)
                 print(element.get_attribute('href'))
@@ -299,7 +299,7 @@ class Type1(Crawler):
             elements2 = Driver.find_elements_by_partial_link_text(word)
             for index, element in enumerate(elements2, 16):
                 print("{} 번째 게시글의 제목: {}".format(index, element.text))
-                if (word in element.text) :
+                if (url_mid in element.text) :
                     print("True!!")
                     flag = True
                     href = element.get_attribute('href')
@@ -334,7 +334,7 @@ class Type1(Crawler):
             return str(rank)
 
 class Type2(Crawler):
-    def crawl(self, query, word):
+    def crawl(self, query, word, url_mid):
         global Driver 
         print('Type2')
         # 체류시간
@@ -388,7 +388,7 @@ class Type2(Crawler):
 
         for index, element in enumerate(elements, 1):
             print("{} 번째 게시글의 제목: {}".format(index, element.text))
-            if (word in element.text) :
+            if (url_mid in element.text) :
                 print("True!!")
                 print(element.text)
                 print(element.get_attribute('href'))
@@ -404,7 +404,7 @@ class Type2(Crawler):
             elements2 = Driver.find_elements_by_partial_link_text(word)
             for index, element in enumerate(elements2, 16):
                 print("{} 번째 게시글의 제목: {}".format(index, element.text))
-                if (word in element.text) :
+                if (url_mid in element.text) :
                     print("True!!")
                     flag = True
                     href = element.get_attribute('href')
@@ -439,7 +439,7 @@ class Type2(Crawler):
             return str(rank)
 
 class Type3(Crawler):
-    def crawl(self, query, word):
+    def crawl(self, query, word, url_mid):
         global Driver 
         print('Type3')
         # 체류시간
@@ -509,7 +509,7 @@ class Type3(Crawler):
 
         for index, element in enumerate(elements, 1):
             print("{} 번째 게시글의 제목: {}".format(index, element.text))
-            if (word in element.text) :
+            if (url_mid in element.text) :
                 print("True!!")
                 print(element.text)
                 print(element.get_attribute('href'))
@@ -525,7 +525,7 @@ class Type3(Crawler):
             elements2 = Driver.find_elements_by_partial_link_text(word)
             for index, element in enumerate(elements2, 16):
                 print("{} 번째 게시글의 제목: {}".format(index, element.text))
-                if (word in element.text) :
+                if (url_mid in element.text) :
                     print("True!!")
                     flag = True
                     href = element.get_attribute('href')
@@ -560,7 +560,7 @@ class Type3(Crawler):
             return str(rank)
 
 class Type4(Crawler):
-    def crawl(self, query, word):
+    def crawl(self, query, word, url_mid):
         global Driver 
         print('Type4')
         # 체류시간
@@ -623,7 +623,7 @@ class Type4(Crawler):
 
         for index, element in enumerate(elements, 1):
             print("{} 번째 게시글의 제목: {}".format(index, element.text))
-            if (word in element.text) :
+            if (url_mid in element.text) :
                 print("True!!")
                 print(element.text)
                 print(element.get_attribute('href'))
@@ -639,7 +639,7 @@ class Type4(Crawler):
             elements2 = Driver.find_elements_by_partial_link_text(word)
             for index, element in enumerate(elements2, 16):
                 print("{} 번째 게시글의 제목: {}".format(index, element.text))
-                if (word in element.text) :
+                if (url_mid in element.text) :
                     print("True!!")
                     flag = True
                     href = element.get_attribute('href')
@@ -674,7 +674,7 @@ class Type4(Crawler):
             return str(rank)
 
 class Type5(Crawler):
-    def crawl(self, query, word):
+    def crawl(self, query, word, url_mid):
         global Driver 
         print('Type5')
         # 체류시간
@@ -713,7 +713,7 @@ class Type5(Crawler):
 
         for index, element in enumerate(elements, 1):
             print("{} 번째 게시글의 제목: {}".format(index, element.text))
-            if (word in element.text) :
+            if (url_mid in element.text) :
                 print("True!!")
                 print(element.text)
                 print(element.get_attribute('href'))
@@ -729,7 +729,7 @@ class Type5(Crawler):
             elements2 = Driver.find_elements_by_partial_link_text(word)
             for index, element in enumerate(elements2, 16):
                 print("{} 번째 게시글의 제목: {}".format(index, element.text))
-                if (word in element.text) :
+                if (url_mid in element.text) :
                     print("True!!")
                     flag = True
                     href = element.get_attribute('href')
@@ -764,7 +764,7 @@ class Type5(Crawler):
             return str(rank)
 
 class Type6(Crawler):
-    def crawl(self, query, word):
+    def crawl(self, query, word, url_mid):
         global Driver 
         print('Type6')
         # 체류시간
@@ -807,7 +807,7 @@ class Type6(Crawler):
 
         for index, element in enumerate(elements, 1):
             print("{} 번째 게시글의 제목: {}".format(index, element.text))
-            if (word in element.text) :
+            if (url_mid in element.text) :
                 print("True!!")
                 print(element.text)
                 print(element.get_attribute('href'))
@@ -823,7 +823,7 @@ class Type6(Crawler):
             elements2 = Driver.find_elements_by_partial_link_text(word)
             for index, element in enumerate(elements2, 16):
                 print("{} 번째 게시글의 제목: {}".format(index, element.text))
-                if (word in element.text) :
+                if (url_mid in element.text) :
                     print("True!!")
                     flag = True
                     href = element.get_attribute('href')
@@ -899,9 +899,9 @@ class Client():
         self._word = ""
         self._loop = ""
         self._crawler = ""
-        self._mid = ""
+        self._url_mid = ""
 
-    def create(self, param, query, word, loop):
+    def create(self, param, query, word, url_mid, loop):
         """param은 사용자 요구에 따라 변경"""
 
         # 사용자 요구에 따라, product를 생산할 factory 생성
@@ -919,6 +919,7 @@ class Client():
         self._query = query
         self._word = word
         self._loop = loop
+        self._url_mid = url_mid
 
     def crawl(self):
         if self._crawler == "" or self._word == "" or self._query == "" or self._loop == "":
@@ -927,7 +928,7 @@ class Client():
         else:
             num = 1
             while(self._loop >= num):
-                self._crawler.crawl(self._query, self._word)
+                self._crawler.crawl(self._query, self._word, self._url_mid)
                 num += 1
 
     def loop(self):
