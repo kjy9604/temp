@@ -69,9 +69,12 @@ def crawling():
 		for i in range(q.qsize()):
 			inner = q.get() # DB row
 			print(inner['crawl_type'])
+			print('1')
 			client = newCrawler.Client()
+			print('2')
 			client.create(inner['crawl_type'], inner['keyword'], inner['url_mid'], inner['loop_count'])
 			if (inner['crawl_type'] == 'shop'):
+				print('123123')
 				client.mid(inner['url_mid'])
 			try:
 				client.crawl()
@@ -116,6 +119,9 @@ class Crawl(Resource):
 			data.get('startDate') is None or data.get('startDate') == '' or 
 			data.get('endDate') is None or data.get('endDate') == ''):
 			return 'Parameter is NULL'
+		
+		if (data.get('type') != 'shop' or data.get('type') != 'rank' or data.get('type') != 'search'):
+			return 'type not match'
 		
 		type = data.get('type')
 		url_mid = data.get('URL_MID')

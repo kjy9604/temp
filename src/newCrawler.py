@@ -65,6 +65,12 @@ def connection():
                 Driver.quit()
         return Driver
     else:
+        url = "http://wtfismyip.com/text"
+        Driver.get(url)
+        time.sleep(5)
+        ip = Driver.find_element_by_tag_name('pre').text
+
+        print(f'현재 IP  ::::  {ip}')
         return Driver
 
 def changeIp():
@@ -902,9 +908,9 @@ class Client():
         if param == 'site': # 검색어 순위 조작용, Type 1 ~ 6까지 랜덤, 현재 진행중임
             factory = SiteFactory()
         elif param == 'search': # 검색어 순위 도출용, 검색하여 30위까지 도출함
-            factory = SearchRank()
+            factory = SearchFactory()
         elif param == 'shop': # 네이버쇼핑 검색어, 연관검색어, 제품ID로 연관검색어 조작 + 순위조작
-            factory = ShopRank()
+            factory = ShopFactory()
         else:
             return
 
