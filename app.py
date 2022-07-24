@@ -1,6 +1,7 @@
 import threading
 import time
-from src import newCrawler
+# from src import newCrawler
+from src import crawlClient
 from flask import Flask, request
 from flask_restx import Resource, Api
 from abc import ABCMeta, abstractmethod
@@ -68,7 +69,7 @@ def crawling():
 		for i in range(q.qsize()):
 			inner = q.get() # DB row
 			print(inner['crawl_type'])
-			client = newCrawler.Client()
+			client = crawlClient.Client()
 			client.create(inner['crawl_type'], inner['keyword'], inner['search_word'], inner['url_mid'], inner['loop_count'])
 			if (inner['crawl_type'] == 'shop'):
 				client.mid(inner['url_mid'])
@@ -116,7 +117,7 @@ class Crawl(Resource):
 			data.get('endDate') is None or data.get('endDate') == ''):
 			return 'Parameter is NULL'
 		
-		if (data.get('type') != 'shop' or data.get('type') != 'rank' or data.get('type') != 'search'):
+		if (data.get('type') != 'shop' or data.get('type') != 'site' or data.get('type') != 'search'):
 			return 'type not match'
 		
 		type = data.get('type')
